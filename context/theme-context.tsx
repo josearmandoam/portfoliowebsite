@@ -7,6 +7,7 @@ type ThemeContextType = {
     handleChangeThemeButton: () => void;
 }
 
+const isBrowserDefaultDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
 const ThemeContext = createContext<ThemeContextType | null>(null);
 type Theme = 'light' | 'dark';
 
@@ -30,6 +31,9 @@ export default function ThemeContextProvider({children} : {children: React.React
         if (theme === 'light') {
             document.documentElement.classList.remove('dark');
         } else if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }else if(isBrowserDefaultDark()){
+            setTheme('dark');
             document.documentElement.classList.add('dark');
         }
     }, []);
